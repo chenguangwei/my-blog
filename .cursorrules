@@ -1,0 +1,62 @@
+# Personal Blog Project Rules
+
+## Project Overview
+This is a Next.js 14 personal blog with App Router, Tailwind CSS, and Markdown content management.
+
+## Tech Stack
+- Next.js 14 (App Router)
+- React 18
+- TypeScript
+- Tailwind CSS
+- Markdown (via unified/remark/rehype)
+
+## Code Style
+- Use TypeScript for all new files
+- Use functional components with hooks
+- Prefer named exports for components
+- Use Tailwind CSS classes instead of custom CSS
+- Follow Next.js App Router conventions
+
+## File Structure
+- `app/` - Next.js pages and routes
+- `components/` - Reusable React components
+- `lib/` - Utility functions and helpers
+- `content/` - Markdown blog posts
+- `public/` - Static assets
+
+## Component Guidelines
+- Keep components small and focused
+- Use TypeScript interfaces for props
+- Add proper accessibility attributes
+- Use semantic HTML elements
+
+## Styling Guidelines
+- Use Tailwind utility classes
+- Follow the paper-card design system
+- Maintain consistent spacing (use Tailwind spacing scale)
+- Ensure responsive design (mobile-first)
+
+## Content Guidelines
+- All blog posts in `content/` directory
+- Use YAML frontmatter for metadata
+- Required fields: title, date, excerpt
+- Optional fields: tags, language, author, image
+
+## SEO Requirements
+- Add metadata to all pages
+- Use semantic HTML
+- Include alt text for images
+- Generate sitemap and RSS feed
+
+## Performance
+- Use next/image for images
+- Implement proper caching
+- Minimize client-side JavaScript
+- Use static generation when possible
+
+## Accessibility
+- Use semantic HTML
+- Add ARIA labels where needed
+- Ensure keyboard navigation
+- Maintain color contrast ratios
+

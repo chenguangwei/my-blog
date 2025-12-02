@@ -1,0 +1,229 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  
+  body {
+    @apply antialiased;
+  }
+}
+
+@layer components {
+  /* Paper card with theme support */
+  .paper-card {
+    @apply rounded-lg transition-all duration-300;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+  
+  .paper-card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Theme-specific card backgrounds */
+  [data-theme="white"] .paper-card {
+    @apply bg-white;
+  }
+
+  [data-theme="warm"] .paper-card {
+    @apply bg-white/90;
+  }
+
+  [data-theme="cool"] .paper-card {
+    @apply bg-white/95;
+  }
+
+  [data-theme="paper"] .paper-card {
+    @apply bg-stone-50;
+  }
+
+  [data-theme="night"] .paper-card {
+    @apply bg-zinc-800/90;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  [data-theme="night"] .paper-card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  }
+  
+  .prose-custom {
+    @apply prose prose-gray max-w-none;
+  }
+
+  /* Night mode text adjustments */
+  [data-theme="night"] .prose {
+    @apply prose-invert;
+  }
+
+  [data-theme="night"] .prose h1,
+  [data-theme="night"] .prose h2,
+  [data-theme="night"] .prose h3,
+  [data-theme="night"] .prose h4 {
+    @apply text-zinc-100;
+  }
+
+  [data-theme="night"] .prose p,
+  [data-theme="night"] .prose li {
+    @apply text-zinc-300;
+  }
+
+  [data-theme="night"] .prose a {
+    @apply text-zinc-100;
+  }
+
+  [data-theme="night"] .prose code {
+    @apply bg-zinc-700 text-zinc-200;
+  }
+
+  /* Theme-specific header styles */
+  [data-theme="white"] header {
+    @apply border-gray-100 bg-white/80;
+  }
+
+  [data-theme="warm"] header {
+    @apply border-amber-100 bg-amber-50/80;
+  }
+
+  [data-theme="cool"] header {
+    @apply border-slate-200 bg-slate-50/80;
+  }
+
+  [data-theme="paper"] header {
+    @apply border-stone-200 bg-stone-100/80;
+  }
+
+  [data-theme="night"] header {
+    @apply border-zinc-800 bg-zinc-900/90;
+  }
+
+  /* Theme-specific footer styles */
+  [data-theme="white"] footer {
+    @apply border-gray-100 bg-white;
+  }
+
+  [data-theme="warm"] footer {
+    @apply border-amber-100 bg-amber-50/50;
+  }
+
+  [data-theme="cool"] footer {
+    @apply border-slate-200 bg-slate-50;
+  }
+
+  [data-theme="paper"] footer {
+    @apply border-stone-200 bg-stone-100/80;
+  }
+
+  [data-theme="night"] footer {
+    @apply border-zinc-800 bg-zinc-900;
+  }
+
+  /* Tag styles for different themes */
+  [data-theme="night"] .tag {
+    @apply bg-zinc-700 text-zinc-300;
+  }
+}
+
+/* Syntax highlighting styles */
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1em;
+  background: #1f2937;
+  color: #f9fafb;
+  border-radius: 0.5rem;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #6b7280;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: #c084fc;
+  font-weight: bold;
+}
+
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: #fbbf24;
+}
+
+.hljs-string,
+.hljs-doctag {
+  color: #34d399;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  color: #60a5fa;
+  font-weight: bold;
+}
+
+.hljs-type,
+.hljs-class .hljs-title {
+  color: #f472b6;
+}
+
+.hljs-tag,
+.hljs-name,
+.hljs-attribute {
+  color: #818cf8;
+  font-weight: normal;
+}
+
+.hljs-regexp,
+.hljs-link {
+  color: #34d399;
+}
+
+.hljs-symbol,
+.hljs-bullet {
+  color: #fb923c;
+}
+
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #60a5fa;
+}
+
+.hljs-meta {
+  color: #9ca3af;
+}
+
+.hljs-deletion {
+  background: #fecaca;
+}
+
+.hljs-addition {
+  background: #bbf7d0;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+/* Smooth transitions for theme changes */
+* {
+  transition-property: background-color, border-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+/* Disable transitions on page load */
+.no-transitions * {
+  transition: none !important;
+}
