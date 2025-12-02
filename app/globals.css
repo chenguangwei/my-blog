@@ -126,6 +126,67 @@
   }
 }
 
+/* Video styles */
+.prose video {
+  @apply w-full rounded-lg my-6;
+  max-height: 500px;
+}
+
+.prose .video-container {
+  @apply relative w-full my-6 rounded-lg overflow-hidden;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+}
+
+.prose .video-container video,
+.prose .video-container iframe {
+  @apply absolute top-0 left-0 w-full h-full rounded-lg;
+}
+
+/* Responsive video wrapper */
+.video-wrapper {
+  @apply relative w-full my-6 rounded-lg overflow-hidden bg-black/5;
+}
+
+.video-wrapper video {
+  @apply w-full h-auto rounded-lg;
+  max-height: 70vh;
+}
+
+/* Video with controls styling */
+.prose video::-webkit-media-controls-panel {
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
+}
+
+/* iframe for YouTube/Bilibili embeds */
+.prose iframe {
+  @apply w-full rounded-lg my-6;
+  aspect-ratio: 16 / 9;
+  border: none;
+}
+
+/* Audio styles */
+.prose audio {
+  @apply w-full my-4;
+}
+
+/* Figure and figcaption for media */
+.prose figure {
+  @apply my-6;
+}
+
+.prose figure figcaption {
+  @apply text-center text-sm opacity-60 mt-2;
+}
+
+/* Night mode media adjustments */
+[data-theme="night"] .video-wrapper {
+  @apply bg-white/5;
+}
+
+[data-theme="night"] .prose video {
+  @apply opacity-95;
+}
+
 /* Syntax highlighting styles */
 .hljs {
   display: block;

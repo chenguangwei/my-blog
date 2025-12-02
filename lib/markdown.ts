@@ -9,6 +9,7 @@ import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeStringify from 'rehype-stringify';
+import rehypeRaw from 'rehype-raw';
 
 const contentDirectory = path.join(process.cwd(), 'content');
 
@@ -78,12 +79,13 @@ export function getAllArticles(): Article[] {
   return articles;
 }
 
-// Convert markdown to HTML
+// Convert markdown to HTML with video and raw HTML support
 export async function markdownToHtml(markdown: string): Promise<string> {
   const result = await unified()
     .use(remarkParse)
     .use(remarkGfm)
-    .use(remarkRehype)
+    .use(remarkRehype, { allowDangerousHtml: true }) // 允许原生 HTML
+    .use(rehypeRaw) // 解析原生 HTML 标签（包括 video, iframe 等）
     .use(rehypeSlug)
     .use(rehypeAutolinkHeadings, {
       behavior: 'wrap',
@@ -92,7 +94,7 @@ export async function markdownToHtml(markdown: string): Promise<string> {
       },
     })
     .use(rehypeHighlight, { ignoreMissing: true })
-    .use(rehypeStringify)
+    .use(rehypeStringify, { allowDangerousHtml: true })
     .process(markdown);
 
   return result.toString();
