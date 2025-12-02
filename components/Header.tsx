@@ -21,24 +21,30 @@ export default function Header() {
             My Blog
           </Link>
           
-          <div className="flex items-center space-x-8">
+          <div className="flex items-center space-x-6 md:space-x-8">
             <Link 
               href="/" 
               className="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity"
             >
-              Home
+              首页
             </Link>
             <Link 
               href="/blog" 
               className="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity"
             >
-              Blog
+              文章
+            </Link>
+            <Link 
+              href="/categories" 
+              className="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity"
+            >
+              分类
             </Link>
             <Link 
               href="/about" 
               className="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity"
             >
-              About
+              关于
             </Link>
             <ThemeToggle />
           </div>

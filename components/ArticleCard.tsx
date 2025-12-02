@@ -10,16 +10,25 @@ interface ArticleCardProps {
 
 export default function ArticleCard({ article }: ArticleCardProps) {
   const readingTime = getReadingTime(article.content);
+  const category = article.category || article.meta.category;
 
   return (
     <Link href={`/blog/${article.slug}`}>
       <article className="paper-card p-6 h-full flex flex-col cursor-pointer">
         <div className="flex-1">
-          <time className="text-xs opacity-60 font-medium">
-            {formatDate(article.meta.date)}
-          </time>
+          <div className="flex items-center gap-2 mb-2">
+            <time className="text-xs opacity-60 font-medium">
+              {formatDate(article.meta.date)}
+            </time>
+            {category && (
+              <>
+                <span className="opacity-30">·</span>
+                <span className="text-xs opacity-60">{category}</span>
+              </>
+            )}
+          </div>
           
-          <h2 className="mt-2 text-xl font-semibold leading-tight hover:opacity-70 transition-opacity">
+          <h2 className="text-xl font-semibold leading-tight hover:opacity-70 transition-opacity">
             {article.meta.title}
           </h2>
           

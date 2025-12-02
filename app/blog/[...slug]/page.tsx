@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import {
   getAllArticleSlugs,
   getArticleBySlug,
@@ -11,20 +12,23 @@ import TableOfContents from '@/components/TableOfContents';
 
 interface ArticlePageProps {
   params: Promise<{
-    slug: string;
+    slug: string[];
   }>;
 }
 
 export async function generateStaticParams() {
   const slugs = getAllArticleSlugs();
-  return slugs.map((slug) => ({ slug }));
+  return slugs.map((slug) => ({ 
+    slug: slug.split('/') 
+  }));
 }
 
 export async function generateMetadata({
   params,
 }: ArticlePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const slugPath = slug.join('/');
+  const article = getArticleBySlug(slugPath);
 
   if (!article) {
     return {
@@ -33,7 +37,7 @@ export async function generateMetadata({
   }
 
   const { meta } = article;
-  const url = `${siteConfig.url}/blog/${slug}`;
+  const url = `${siteConfig.url}/blog/${slugPath}`;
 
   return {
     title: meta.title,
@@ -57,24 +61,20 @@ export async function generateMetadata({
     },
     alternates: {
       canonical: url,
-      languages: {
-        'en': `${siteConfig.url}/en/blog/${slug}`,
-        'zh': `${siteConfig.url}/zh/blog/${slug}`,
-        'ja': `${siteConfig.url}/jp/blog/${slug}`,
-      },
     },
   };
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const slugPath = slug.join('/');
+  const article = getArticleBySlug(slugPath);
 
   if (!article) {
     notFound();
   }
 
-  const { meta, content } = article;
+  const { meta, content, category } = article;
   const htmlContent = await markdownToHtml(content);
   const toc = extractTOC(content);
   const readingTime = getReadingTime(content);
@@ -107,9 +107,31 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_250px]">
           {/* Main Content */}
           <div className="min-w-0">
+            {/* Breadcrumb */}
+            {category && (
+              <nav className="mb-6 text-sm">
+                <ol className="flex items-center space-x-2">
+                  <li>
+                    <Link href="/blog" className="opacity-60 hover:opacity-100 transition-opacity">
+                      文章
+                    </Link>
+                  </li>
+                  <li className="flex items-center space-x-2">
+                    <span className="opacity-40">/</span>
+                    <Link 
+                      href={`/categories/${category}`}
+                      className="opacity-60 hover:opacity-100 transition-opacity"
+                    >
+                      {category}
+                    </Link>
+                  </li>
+                </ol>
+              </nav>
+            )}
+
             {/* Article Header */}
             <header className="mb-12">
-              <div className="mb-4 flex items-center space-x-3 text-sm text-gray-600">
+              <div className="mb-4 flex items-center flex-wrap gap-x-3 gap-y-1 text-sm opacity-70">
                 <time dateTime={meta.date}>{formatDate(meta.date)}</time>
                 <span>·</span>
                 <span>{readingTime} min read</span>
@@ -119,30 +141,48 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     <span className="uppercase">{meta.language}</span>
                   </>
                 )}
+                {category && (
+                  <>
+                    <span>·</span>
+                    <Link 
+                      href={`/categories/${category}`}
+                      className="hover:opacity-100 transition-opacity"
+                    >
+                      {category}
+                    </Link>
+                  </>
+                )}
               </div>
 
-              <h1 className="text-4xl font-bold text-gray-900 leading-tight md:text-5xl">
+              <h1 className="text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">
                 {meta.title}
               </h1>
 
               {meta.tags && meta.tags.length > 0 && (
                 <div className="mt-6 flex flex-wrap gap-2">
                   {meta.tags.map((tag) => (
-                    <span
+                    <Link
                       key={tag}
-                      className="inline-flex items-center px-3 py-1 text-sm font-medium text-gray-600 bg-gray-50 rounded-full"
+                      href={`/tags/${encodeURIComponent(tag)}`}
+                      className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-full bg-current/5 hover:bg-current/10 transition-colors"
                     >
                       {tag}
-                    </span>
+                    </Link>
                   ))}
                 </div>
               )}
             </header>
 
             {/* Article Content */}
-            <div className="paper-card p-8 md:p-12">
+            <div className="paper-card p-6 md:p-8 lg:p-12">
               <div
-                className="prose prose-gray max-w-none prose-headings:font-semibold prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-a:text-gray-900 prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg prose-pre:bg-gray-900"
+                className="prose prose-gray max-w-none 
+                  prose-headings:font-semibold 
+                  prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl 
+                  prose-a:text-current prose-a:no-underline hover:prose-a:underline 
+                  prose-img:rounded-lg 
+                  prose-pre:bg-gray-900
+                  prose-code:before:content-none prose-code:after:content-none"
                 dangerouslySetInnerHTML={{ __html: htmlContent }}
               />
             </div>
@@ -157,3 +197,4 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     </>
   );
 }
+
